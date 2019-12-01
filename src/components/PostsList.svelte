@@ -1,7 +1,7 @@
 <ul class="post-list">
     {#each posts as post}
         <li>
-            <a rel='prefetch' href='articles/{post.slug}'>
+            <a rel='prefetch' href='articles/{getCategorySlug(post)}/{post.slug}'>
                 {post.title.rendered}
             </a>
         </li>
@@ -11,15 +11,24 @@
 <ul class="pagination">
     {#each pages as page}
         <li>
-            <button class="{ page === currentPage ? 'active' : '' }" on:click="{() => changePage(page)}">
+            <a href='page/{page}' class="{ page === currentPage ? 'active' : '' }">
                 {page}
-            </button>
+            </a>
         </li>
     {/each}
 </ul>
 
 <script>
-    import { onMount } from 'svelte'
+    export let posts
+    export let pages
+    export let currentPage
+
+    function getCategorySlug(post) {
+        return post._embedded["wp:term"][0][0].slug
+    }
+
+
+    /*import { onMount } from 'svelte'
 
     import { stores } from '@sapper/app';
     const { page } = stores();
@@ -34,6 +43,8 @@
         getCategoryID($page.params.slug)
         console.log(catID)
     }
+
+
 
     const apiUrl = process.env.SAPPER_APP_API_URL
 
@@ -77,7 +88,7 @@
     }
 
     onMount(async () => {
-        const res = await fetch(`${apiUrl}/wp/v2/posts?per_page=5`)
+        const res = await fetch(`${apiUrl}/wp/v2/posts?per_page=5&_embed`)
         posts = await res.json()
 
         totalPages = res.headers.get('X-WP-TotalPages')
@@ -85,7 +96,7 @@
         pages = createPagesArray(totalPages)
 
         console.log(pages);
-    })
+    })*/
 </script>
 
 <style lang="scss">
@@ -108,7 +119,8 @@
             }
         }
 
-        button {
+        a {
+            display: inline-block;
             padding: 10px 15px;
             border: 1px solid #cccccc;
             cursor: pointer;
