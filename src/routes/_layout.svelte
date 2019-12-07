@@ -5,8 +5,12 @@
 		const res = await this.fetch(`${apiUrl}/wp/v2/categories`)
 		const categories = await res.json()
 
+		const resMenu = await this.fetch(`${apiUrl}/menus/v1/menus/main-menu`)
+		const menuItems = await resMenu.json()
+
 		return {
-			categories
+			categories,
+			menuItems
 		}
 	}
 </script>
@@ -17,6 +21,8 @@
 
 	export let segment;
 	export let categories
+	export let menuItems
+	console.log(menuItems)
 </script>
 
 <style>
@@ -31,7 +37,7 @@
 	}
 </style>
 
-<Nav {segment}/>
+<Nav {segment} menuItems={menuItems} />
 
 <main>
 	<CategoryList categories={categories} />

@@ -11,7 +11,7 @@
 <ul class="pagination">
     {#each pages as page}
         <li>
-            <a href='page/{page}' class="{ page === currentPage ? 'active' : '' }">
+            <a href='{isCategoryPage ? `categories/${catSlug}/page/${page}` : `page/${page}` }' class="{ page === currentPage ? 'active' : '' }">
                 {page}
             </a>
         </li>
@@ -22,6 +22,8 @@
     export let posts
     export let pages
     export let currentPage
+    export let isCategoryPage = undefined
+    export let catSlug = undefined
 
     function getCategorySlug(post) {
         return post._embedded["wp:term"][0][0].slug
