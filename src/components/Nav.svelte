@@ -1,9 +1,34 @@
+<nav>
+	<ul>
+		{#each menuItems.items as item}
+			<li>
+				<a class:selected='{item.slug === "home" ? segment === undefined : segment === item.slug }'
+				   href='{ item.slug === "home" ? "." : item.slug  }'>
+					{item.title}
+				</a>
+
+				{#if item.child_items !== undefined}
+					<ul class="subitems">
+						{#each item.child_items as subitem }
+							<li>
+								<a class:selected='{segment === subitem.url }' href='{ subitem.url  }'>
+									{subitem.title}
+								</a>
+							</li>
+						{/each}
+					</ul>
+				{/if}
+			</li>
+		{/each}
+	</ul>
+</nav>
+
 <script>
 	export let segment
 	export let menuItems
 </script>
 
-<style>
+<style lang="scss">
 	nav {
 		border-bottom: 1px solid rgba(255,62,0,0.1);
 		font-weight: 300;
@@ -13,6 +38,23 @@
 	ul {
 		margin: 0;
 		padding: 0;
+
+		ul.subitems {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			border: 1px solid #efefef;
+			min-width: 200px;
+
+			li {
+				float: none;
+
+				&:hover {
+					background: #efefef;
+				}
+			}
+		}
 	}
 
 	/* clearfix */
@@ -25,6 +67,11 @@
 	li {
 		display: block;
 		float: left;
+		position: relative;
+
+		&:hover .subitems {
+			display: block;
+		}
 	}
 
 	.selected {
@@ -48,19 +95,3 @@
 		display: block;
 	}
 </style>
-
-<nav>
-	<ul>
-		{#each menuItems.items as item}
-			<li><a
-					class:selected='{item.slug === "home" ? segment === undefined : segment === item.slug}'
-					href='{ item.slug === "home" ? "." : item.slug}'>
-				{item.title}
-			</a>
-			</li>
-		{/each}
-		<!--<li><a class:selected='{segment === undefined}' href='.'>home</a></li>
-		<li><a class:selected='{segment === "about"}' href='about'>about</a></li>
-		<li><a rel=prefetch class:selected='{segment === "blog"}' href='blog'>blog</a></li>-->
-	</ul>
-</nav>

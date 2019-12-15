@@ -1,0 +1,14 @@
+{
+    "version": 2,
+    "builds": [
+        { "src": "package.json", "use": "now-sapper" }
+    ],
+    "env": {
+        "SAPPER_APP_API_URL": "https://sapperapi.ploosnar.com/wp-json"
+    },
+    "build": {
+        "env": {
+            "SAPPER_APP_API_URL": "https://sapperapi.ploosnar.com/wp-json"
+        }
+    }
+}
